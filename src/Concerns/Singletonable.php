@@ -2,16 +2,22 @@
 
 namespace Mpietrucha\Support\Concerns;
 
+use Closure;
 use Mpietrucha\Support\Singleton;
 
 trait Singletonable
 {
     public static function instance(): self
     {
-        return Singleton::for(static::class, self::singletonable(...))->get();
+        return self::singleton(self::singletonable(...))->get();
     }
 
-    protected function singletonable(Singleton $singleton): void
+    public static function singleton(?Closure $callback = null): Singleton
+    {
+        return Singleton::for(static::class, $callback);
+    }
+
+    protected static function singletonable(Singleton $singleton): void
     {
     }
 }

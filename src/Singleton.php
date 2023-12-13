@@ -17,8 +17,13 @@ class Singleton extends Instance
             return $singleton;
         }
 
-        value($callbck, $instance = self::create($singletonable));
+        value($callback, $instance = self::create($singletonable));
 
-        return self::$instances->put($singletonable, $instance);
+        return self::$instances->put($singletonable, $instance)->get($singletonable);
+    }
+
+    public function destroy(): void
+    {
+        self::$instances = self::$instances->reject(fn (object $source) => $source === $this);
     }
 }
